@@ -34,5 +34,12 @@
 :- use_module(library(http/http_hook)).		% Get hook signatures
 :- include(library(pldoc/hooks)).
 
+%       http:location(pldoc, Location, Options) is det.
+%
+%       Rebase PlDoc to <prefix>/help/source/
+
+http:location(pldoc, root('help/source'), [priority(10)]).
+
+
 :- ensure_loaded(http_help).		% Help on HTTP server
 

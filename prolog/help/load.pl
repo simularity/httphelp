@@ -40,6 +40,5 @@
 
 http:location(pldoc, root('help/source'), [priority(10)]).
 
-
 :- ensure_loaded(http_help).		% Help on HTTP server
 
