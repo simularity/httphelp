@@ -117,9 +117,7 @@ http_help(Request) :-
 
 help_page(Options) -->
 	{ tree_view_options(TreeOptions) },
-	html([ \html_requires(css('httpdoc.css')),
-	       \html_requires(pldoc),
-	       \html_requires(js('api_test.js')),
+	html([
 	       div(id('http-tree'), \http_tree_view(TreeOptions)),
 	       div(id('http-find'), \quick_find_div_content),
 	       div(id('http-help'), \usage),
@@ -132,7 +130,8 @@ tree_view_options(
 ]).
 
 usage -->
-	html([ h4('Usage'),
+	html([ \html_requires(css('httpdoc.css')),
+	       h4('Usage'),
 	       p([ 'This page finds HTTP paths (locations) served by this ',
 		   'server.  You can find locations by browsing the hierarchy ',
 		   'at the left or by entering a few characters from the ',
@@ -801,7 +800,10 @@ evaluate_now(append(L1,_)) :-
 max_results_displayed(50).
 
 quick_find_div_content -->
-	html([ span(id(qf_label), 'Quick find:'),
+	html([ \html_requires(css('httpdoc.css')),
+	       \html_requires(pldoc),
+	       \html_requires(js('api_test.js')),
+	       span(id(qf_label), 'Quick find:'),
 	       \autocomplete_finder,
 	       input([ value('Show'), type(submit),
 		       onClick('showLocation();')

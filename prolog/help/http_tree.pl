@@ -72,6 +72,9 @@ tree_view(Handler, Options) -->
 	  TreeViewID = treeDiv1
 	},
 	html([ \html_requires(yui_examples('treeview/assets/css/folders/tree.css')),
+	       \html_requires(css('httpdoc.css')),
+	       \html_requires(pldoc),
+	       \html_requires(js('api_test.js')),
 
 	       div(id(TreeViewID), []),
 	       \tree_view_script(Path, TreeViewID, Options)
