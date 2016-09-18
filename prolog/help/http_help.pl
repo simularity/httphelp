@@ -87,20 +87,14 @@ http_help(Request) :-
 				     description('Display help on location')
 				   ])
 			]),
-	http_current_host(Request, Host, Port, [global(true)]),
-	(   Port == 80
-	->  Authority = Host
-	;   format(atom(Authority), '~w:~w', [Host, Port])
-	),
 	(   var(Start)
 	->  Options = []
 	;   Options = [ location(Start) ]
 	),
-	reply_html_page(cliopatria(http_help),
+	reply_html_page(http_help,
 			title('Server help'),
 			[ body(class('yui-skin-sam'),
-			       [ h1(class(title), 'Server at ~w'-[Authority]),
-				 \help_page(Options)
+			       [ \help_page(Options)
 			       ])
 			]).
 
