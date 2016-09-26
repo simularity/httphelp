@@ -4,8 +4,6 @@
 :- use_module(library(http/html_write)).
 
 user:file_search_path(library, lib).
-user:file_search_path(skin, skin).
-user:file_search_path(components, components).
 user:file_search_path(web, './web').
 user:file_search_path(js, './web/js').
 user:file_search_path(css, './web/css').
@@ -30,6 +28,7 @@ user:location(js, '/icons', []).
 
 user:body(http_help, Body) -->
         html(body([ div(id(top), h1('HTTP Endpoints')),
+		    hr(' '),
                     div(id(content), Body)
                   ])).
 
