@@ -96,7 +96,7 @@ http_help(Request) :-
 	->  Options = []
 	;   Options = [ location(Start) ]
 	),
-	reply_html_page(cliopatria(http_help),
+	reply_html_page(http_help,
 			title('Server help'),
 			[ body(class('yui-skin-sam'),
 			       [ h1(class(title), 'Server at ~w'-[Authority]),
