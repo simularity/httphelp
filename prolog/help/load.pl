@@ -39,12 +39,49 @@
 
 :- use_module(library(http/http_hook)).		% Get hook signatures
 :- include(library(pldoc/hooks)).
-
-%       http:location(pldoc, Location, Options) is det.
-%
-%       Rebase PlDoc to <prefix>/help/source/
-
-http:location(pldoc, root('help/source'), [priority(10)]).
+:- use_module(library(http/http_server_files)).
+:- use_module(library(http/http_dispatch)).
+:- use_module(library(http/html_write)).
 
 :- ensure_loaded(http_help).		% Help on HTTP server
+
+:- multifile user:file_search_path/2.
+:- writeln('I loaded').
+
+user:file_search_path(library, lib).
+
+add_path(Name) :-
+	writeln('got in'),
+	prolog_load_context(directory, Dir),
+	write('Dir is '),writeln(Dir),
+	atomic_list_concat([Dir, '/../web/', Name, '/'], APath),
+	write('APath is '),writeln(APath),
+	absolute_file_name(APath, Path),
+	write('Path is '),writeln(Path),
+	asserta(user:file_search_path(Name, Path)).
+
+:- add_path(js).
+:- add_path(css).
+:- add_path(icons).
+
+:- multifile http:location/3.
+user:location(css, '/css' , []).
+user:location(js, '/js', []).
+user:location(js, '/icons', []).
+
+:- http_handler(css(.), serve_files_in_directory(css),
+		[priority(-100), prefix]).
+:- http_handler(icons(.), serve_files_in_directory(icons),
+		[priority(-100), prefix]).
+:- http_handler(js(.), serve_files_in_directory(js),
+		[priority(-100), prefix]).
+
+:- multifile
+        user:body//2.
+
+user:body(http_help, Body) -->
+        html(body([ div(id(top), h1('HTTP Endpoints')),
+		    hr(' '),
+                    div(id(content), Body)
+                  ])).
 
